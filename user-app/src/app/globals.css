@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --bg-main: #0D0D0B;
+    --bg-panel: #1A1209;
+    --bg-card: #231A0F;
+    --border-main: #3D2A0A;
+    --text-main: #ffffff;
+    --text-muted: #B8A89A;
+    
+    --ff-orange: #FF6B00;
+    --ff-red: #CC1100;
+    --ff-gold: #FFD700;
+
+    --success-bg: rgba(16, 185, 129, 0.1);
+    --success-border: rgba(16, 185, 129, 0.2);
+    --success-text: #10b981;
+    --error-bg: rgba(239, 68, 68, 0.1);
+    --error-border: rgba(239, 68, 68, 0.2);
+    --error-text: #ef4444;
+  }
+
+  .light-theme {
+    color-scheme: light;
+    --bg-main: #f0f0f0;
+    --bg-panel: #ffffff;
+    --bg-card: #f8f8f8;
+    --border-main: #d0d0d0;
+    --text-main: #1a1a1a;
+    --text-muted: #666666;
+
+    --success-bg: rgba(16, 185, 129, 0.15);
+    --success-border: rgba(16, 185, 129, 0.3);
+    --success-text: #059669;
+    --error-bg: rgba(239, 68, 68, 0.15);
+    --error-border: rgba(239, 68, 68, 0.3);
+    --error-text: #dc2626;
+  }
+
+  body {
+    @apply font-sans min-h-screen overflow-x-hidden;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    background-image: 
+      radial-gradient(ellipse at 20% 20%, rgba(255, 107, 0, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(204, 17, 0, 0.03) 0%, transparent 50%);
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.05em;
+  }
+}
+
+@layer utilities {
+  /* FF BORDER STYLES */
+  .ff-border {
+    border: 1px solid rgba(255, 107, 0, 0.3);
+    box-shadow: 0 0 8px rgba(255, 107, 0, 0.1), inset 0 0 8px rgba(255, 107, 0, 0.03);
+  }
+  .ff-border-gold {
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);
+  }
+  .ff-border-red {
+    border: 1px solid rgba(204, 17, 0, 0.4);
+    box-shadow: 0 0 10px rgba(204, 17, 0, 0.15);
+  }
+
+  /* Legacy compat */
+  .neon-border-blue {
+    border: 1px solid rgba(255, 107, 0, 0.3);
+    box-shadow: 0 0 12px rgba(255, 107, 0, 0.15);
+  }
+  .neon-border-purple {
+    border: 1px solid rgba(204, 17, 0, 0.3);
+    box-shadow: 0 0 12px rgba(204, 17, 0, 0.15);
+  }
+  .neon-text-blue {
+    text-shadow: 0 0 8px rgba(255, 107, 0, 0.7);
+  }
+  .neon-text-purple {
+    text-shadow: 0 0 8px rgba(204, 17, 0, 0.7);
+  }
+
+  /* FIRE GLOW EFFECTS */
+  .fire-glow {
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.5), 0 0 40px rgba(255, 107, 0, 0.2);
+  }
+  .fire-text {
+    text-shadow: 0 0 10px rgba(255, 107, 0, 0.8), 0 0 20px rgba(255, 107, 0, 0.4);
+  }
+
+  /* DIAGONAL CUT CARD — FF signature style */
+  .ff-card-cut {
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  }
+  .ff-card-cut-sm {
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .ff-card-cut-top {
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  }
+
+  /* ANIMATED GRADIENT BORDER */
+  .ff-gradient-border {
+    position: relative;
+    background: #1A1209;
+  }
+  .ff-gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(135deg, #FF6B00, #CC1100, #FF9500);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* ACTIVE/SELECTED STATE */
+  .ff-active {
+    background: linear-gradient(90deg, rgba(255, 107, 0, 0.15), rgba(204, 17, 0, 0.05));
+    border-left: 3px solid #FF6B00;
+  }
+
+  /* BATTLE ROYALE BADGE */
+  .ff-badge {
+    @apply text-[9px] font-bold uppercase tracking-widest px-2 py-0.5;
+    font-family: 'Oswald', sans-serif;
+    clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+  }
+  .ff-badge-orange {
+    @apply ff-badge bg-ff-orange/20 text-ff-orange border border-ff-orange/30;
+  }
+  .ff-badge-gold {
+    @apply ff-badge bg-ff-gold/20 text-ff-gold border border-ff-gold/30;
+  }
+  .ff-badge-red {
+    @apply ff-badge bg-ff-red/20 text-ff-red border border-ff-red/30;
+  }
+  .ff-badge-gray {
+    @apply ff-badge text-ff-gray;
+    background-color: rgba(139, 115, 85, 0.1); /* fallback */
+    border: 1px solid rgba(139, 115, 85, 0.2);
+  }
+  
+  .light-theme .ff-badge-gray {
+    background-color: rgba(102, 102, 102, 0.1);
+    border: 1px solid rgba(102, 102, 102, 0.2);
+  }
+
+  /* FF BUTTON */
+  .ff-btn {
+    @apply px-4 py-2 font-bold uppercase tracking-widest text-sm text-white transition-all duration-200;
+    font-family: 'Oswald', sans-serif;
+    background: linear-gradient(135deg, #FF6B00, #CC1100);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .ff-btn:hover {
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+    filter: brightness(1.1);
+  }
+  .ff-btn-outline {
+    @apply px-4 py-2 font-bold uppercase tracking-widest text-sm text-ff-orange transition-all duration-200;
+    font-family: 'Oswald', sans-serif;
+    background: transparent;
+    border: 1px solid rgba(255, 107, 0, 0.5);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .ff-btn-outline:hover {
+    background: rgba(255, 107, 0, 0.1);
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
+  }
+
+  /* SECTION HEADER */
+  .ff-section-title {
+    @apply text-lg font-bold uppercase tracking-widest text-ff-text flex items-center gap-2;
+    font-family: 'Oswald', sans-serif;
+  }
+  .ff-section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    background: linear-gradient(180deg, #FF6B00, #CC1100);
+  }
+
+  /* STAT DIVIDER */
+  .ff-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 0, 0.3), transparent);
+  }
+
+  /* PULSE GLOW */
+  .pulse-glow-blue {
+    position: relative;
+  }
+  .pulse-glow-blue::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(circle, rgba(255, 107, 0, 0.3) 0%, transparent 70%);
+    z-index: -1;
+    filter: blur(12px);
+    animation: fireFlicker 3s infinite ease-in-out;
+    border-radius: inherit;
+  }
+
+  /* ANIMATE FADE IN */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+}
+
+/* ===================== KEYFRAMES ===================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fireFlicker {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes warPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 107, 0, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(255, 107, 0, 0.7), 0 0 50px rgba(255, 107, 0, 0.2); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes tracerFire {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(240px); }
+}
+
+/* ===================== TRACER LOADER ===================== */
+.tracer-loader {
+  width: 200px;
+  height: 3px;
+  background-color: rgba(255, 107, 0, 0.1);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  margin: 10px auto;
+}
+.tracer-bullet {
+  position: absolute;
+  top: 0;
+  left: -40px;
+  height: 100%;
+  width: 40px;
+  background: linear-gradient(to right, transparent 0%, rgba(255,107,0,0.8) 50%, #FFD700 100%);
+  border-radius: 50% 10px 10px 50%;
+  animation: tracerFire 0.6s infinite linear;
+  box-shadow: 2px 0 8px rgba(255, 107, 0, 0.8);
+}
+
+/* ===================== SCROLLBAR ===================== */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0D0D0B;
+}
+::-webkit-scrollbar-thumb {
+  background: #3D2A0A;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF6B00;
+}
+
+/* ===================== INPUT STYLES ===================== */
+input, select, textarea {
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+}
+input::placeholder, select::placeholder {
+  color: var(--text-muted);
+}
+
+/* Fix browser autofill / autocomplete background and text color issues */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px var(--bg-panel) inset !important;
+    -webkit-text-fill-color: var(--text-main) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ===================== FF SELECTION COLOR ===================== */
+::selection {
+  background: rgba(255, 107, 0, 0.3);
+  color: #fff;
+}
