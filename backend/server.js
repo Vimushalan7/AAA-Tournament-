@@ -17,14 +17,23 @@ import MatchResult from './models/MatchResult.js';
 
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
-
 const app = express();
+
+// Connect to DB on each request (serverless-safe)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('DB connection failed:', err.message);
+    res.status(500).json({ message: 'Database connection failed' });
+  }
+});
 
 app.use(cors());
 app.options('*', (req, res) => res.status(200).end());
 app.use(express.json());
+
 
 // Base Route
 app.get('/', (req, res) => {
