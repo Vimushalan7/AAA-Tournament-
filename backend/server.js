@@ -23,6 +23,7 @@ connectDB();
 const app = express();
 
 app.use(cors());
+app.options('*', (req, res) => res.status(200).end());
 app.use(express.json());
 
 // Base Route
