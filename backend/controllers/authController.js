@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
 const generateToken = (id) => {
@@ -117,6 +118,20 @@ export const registerUser = async (req, res) => {
 export const googleAuth = async (req, res) => {
   try {
     const { email, name, googleId, profilePic } = req.body;
+    
+    // TEMPORARY LOGGING TO MONGODB
+    try {
+      const Log = mongoose.model('Log', new mongoose.Schema({}, { strict: false }));
+      await Log.create({
+        event: 'GOOGLE_LOGIN_ATTEMPT',
+        email,
+        name,
+        googleId,
+        timestamp: new Date()
+      });
+    } catch (e) {
+      console.log('Log error', e);
+    }
 
     if (!email) {
       return res.status(400).json({ message: 'Email is required' });
