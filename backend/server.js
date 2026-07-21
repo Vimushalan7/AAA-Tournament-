@@ -83,40 +83,39 @@ const seedAdmin = async () => {
   }
 };
 
-// Setup periodic cleanup for match result screenshots (runs every 1 hour)
-const startScreenshotCleanupJob = () => {
-  const cleanup = async () => {
-    try {
-      const twoDaysAgo = new Date();
-      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+// Vercel Cron Job Endpoint for Cleanup
+app.get('/api/cron/cleanup', async (req, res) => {
+  if (process.env.CRON_SECRET && req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try {
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
 
-      const result = await MatchResult.updateMany(
-        {
-          createdAt: { $lt: twoDaysAgo },
-          screenshotUrl: { $ne: 'Deleted' }
-        },
-        {
-          $set: { screenshotUrl: 'Deleted' }
-        }
-      );
-
-      if (result.modifiedCount > 0) {
-        console.log(`[CLEANUP] Successfully removed ${result.modifiedCount} screenshots older than 2 days.`);
+    const result = await MatchResult.updateMany(
+      {
+        createdAt: { $lt: twoDaysAgo },
+        screenshotUrl: { $ne: 'Deleted' }
+      },
+      {
+        $set: { screenshotUrl: 'Deleted' }
       }
-    } catch (error) {
-      console.error('[CLEANUP ERROR] Failed to clean up match result screenshots:', error);
-    }
-  };
+    );
 
-  // Run initial cleanup immediately on startup
-  cleanup();
-
-  // Schedule to run every 1 hour
-  setInterval(cleanup, 3600000); 
-};
-
-app.listen(PORT, async () => {
-  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-  await seedAdmin();
-  startScreenshotCleanupJob();
+    res.json({ message: 'Cleanup complete', modified: result.modifiedCount });
+  } catch (error) {
+    console.error('[CLEANUP ERROR]:', error);
+    res.status(500).json({ message: 'Cleanup failed' });
+  }
 });
+
+// Setup local listener for development only
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, async () => {
+    console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+    await seedAdmin();
+  });
+}
+
+// Export for Vercel Serverless
+export default app;
