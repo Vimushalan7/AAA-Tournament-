@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || 'dummy'}>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '136435528898-l8e1usq6lhk73akq72emj7pr85huidhj.apps.googleusercontent.com'}>
           <ClientWrapper>
             {children}
           </ClientWrapper>
