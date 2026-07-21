@@ -16,7 +16,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const decoded = jwtDecode(credentialResponse.credential);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/google`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://tournament-backend-phi.vercel.app/api'}/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
