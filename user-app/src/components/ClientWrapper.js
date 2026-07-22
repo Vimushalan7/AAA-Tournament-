@@ -23,7 +23,7 @@ export default function ClientWrapper({ children }) {
   const [acceptingRules, setAcceptingRules] = useState(false);
   const [rulesTicked, setRulesTicked] = useState(false);
 
-  const isPublicRoute = pathname === '/login' || pathname === '/register';
+  const isPublicRoute = pathname === '/login' || pathname === '/register' || pathname === '/';
 
   const fetchProfile = async () => {
     try {
@@ -61,7 +61,7 @@ export default function ClientWrapper({ children }) {
       // Load profile first, then redirect
       fetchProfile().then(success => {
         setLoading(false);
-        if (success && isPublicRoute) router.push('/');
+        if (success && isPublicRoute && pathname !== '/') router.push('/');
       });
     } else {
       setUser(null);
